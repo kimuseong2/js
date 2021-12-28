@@ -10,6 +10,12 @@
     html,body,div,ul,li,button,a{
         padding:0; margin:0;
     }
+    a{
+        text-decoration:none;
+        font-size:12px;
+        font-weight:bold;
+        color:#777;
+    }
     .SlideWrap{
         overflow:hidden;
         position:relative;
@@ -21,16 +27,21 @@
     .SlideImg{
         width:1920px;
         height:500px;
-        float:left;       
+        float:left;   
+        text-align:center;
+        line-height:500px;
+        list-style:none;    
+        font-weight:bold;
+        color:#666;
     }
     .SlideImg:nth-child(1){
-        background:red;
+        background:#eee;
     }
     .SlideImg:nth-child(2){
-        background:blue;
+        background:#eee;
     }
     .SlideImg:nth-child(3){
-        background:yellow;
+        background:#eee;
     }
     .SlideNav{
         overflow:hidden;
@@ -47,10 +58,19 @@
         border: 1px solid #ddd;
         background:#fff;
         margin:0 2px;
-        line-height:999px;
     }
     .SlideNav > .active {
-        background:#333;
+        background:#999;
+        border:1px solid #eee;
+    }
+    .pvnt{
+        position:absolute;
+        width:90%;
+        top: 50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        display:flex;
+        justify-content: space-between;
     }
 </style>
 <body>
@@ -66,10 +86,15 @@
         </ul> <!-- slideimg-->
 
         <div class="SlideNav">
-            <button class="SlideNavBtn active" onclick="btnSlide(0)">1</button>
-            <button class="SlideNavBtn" onclick="btnSlide(1)">2</button>
-            <button class="SlideNavBtn" onclick="btnSlide(2)">3</button>
-            <a href="#" class="control">일시정지</a>
+            <button class="SlideNavBtn active" onclick="btnSlide(0)"></button>
+            <button class="SlideNavBtn" onclick="btnSlide(1)"></button>
+            <button class="SlideNavBtn" onclick="btnSlide(2)"></button>
+            <a href="#" class="control" onclick="playbtn()">일시정지</a>
+        </div>
+
+        <div class="pvnt">
+            <a href="#" onclick="prev();">이전</a>
+            <a href="#" onclick="next();">다음</a>
         </div>
 
     </div> <!-- slide -->
@@ -77,19 +102,19 @@
 </div> <!-- wrap -->
 
 <script>
-    const SlideWidth=window.innerWidth;
+    const SlideWidth=window.innerWidth; //브라우저 가로 길이
     const SlideImg=document.getElementsByClassName('SlideImg');
     const SlideImgWrap=document.getElementsByClassName('SlideImgWrap');
-    const SlideImgWidth= SlideWidth;
-    const SlideImgLength=document.getElementsByClassName('SlideImg').length;
-    const SlideImgWrapWidth= SlideWidth * SlideImgLength;
+    const SlideImgLength=document.getElementsByClassName('SlideImg').length; //리스트&버튼 갯수
+    const SlideImgWrapWidth= SlideWidth * SlideImgLength; //브라우저 가로길이 x 리스트 갯수
     const SlideNavBtn=document.getElementsByClassName('SlideNavBtn');
-    let moveSlide=true;
-    let nowIndex;
-    let SlideIndex=0;
+    const Control=document.getElementsByClassName('control');
+    let moveSlide=true; //일시정지 유무 체크
+    let SlideIndex=0; //현재 슬라이드 위치
+    let timer;
 
     setWidth();
-    move();
+    startmove();
 
     window.onresize= function(){
         setWidth();
@@ -123,15 +148,29 @@
 
 
     function prev(){
-
+        if( SlideIndex > 0 ){
+            SlideIndex--;
+            btnSlide(SlideIndex);
+        }else{
+            SlideIndex = SlideImgLength-1;
+            btnSlide(SlideIndex);
+        }
+        console.log("취소 누른 인덱스: " + SlideIndex);
+        console.log("ddd: " + (SlideImgLength-1) );
     }
 
     function next(){
-
+        if( SlideIndex < SlideImgLength-1 ){
+            SlideIndex++;
+            btnSlide(SlideIndex);
+        }else if( SlideIndex = SlideImgLength-1){
+            SlideIndex=0;
+            btnSlide(SlideIndex);
+        }
     }
-    
-    function move(){
-        set = setInterval( function(){
+
+    function startmove(){
+        timer = setInterval( function(){
             if( SlideIndex < SlideImgLength-1 ){
                 SlideIndex++;
                 btnSlide(SlideIndex);
@@ -140,18 +179,31 @@
                 SlideIndex=0;
                 btnSlide(SlideIndex);
             }
-        },2000 );
+        }, 4000);
     }
 
-    function playbtn(n){
-        if ( n = true ){
-            moveSlide = true;
-            move();
-        } else if( n = false ){
-            moveSlide = false;
-            move();
-            clearInterval(set);
+    function playbtn(){
+        if ( moveSlide=true ){
+            stop();
+            console.log("멈춤")
+        } else {
+            go();
+            console.log("시작");
         }
+    }
+
+    function go(){
+        startmove();
+        moveSlide=false;
+        Control[0].innerHTML="일시정지";
+        Control[0].setAttribute("onclick","stop()");
+    }
+
+    function stop(){
+        moveSlide=true;
+        clearInterval(timer);
+        Control[0].innerHTML="재생하기";
+        Control[0].setAttribute("onclick","go()");
     }
 </script>
     

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="KO">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToggleSwitch</title>
+</head>
+<style>
+    .blind{ position: absolute; overflow:hidden; width:1px; height:1px; clip: rect(1px,1px,1px,1px); }
+    .hidden { position: absolute; left: -9999px; }
+
+    .bar-switch{ 
+        overflow:hidden;
+        position: relative;
+        padding:0.5em 2.5em;
+        background:#eee;
+        border-radius: 20px;
+     }
+     .onoff-switch{ 
+        position: absolute;
+        top:50%;
+        left:0;
+        transform: translate(0.5em,-50%);
+        padding:10px;
+        background:#aaa;
+        border-radius: 10px;
+        transition: 0.5s;
+      }
+      #toggleSwitch:checked ~ .bar-switch > .onoff-switch{
+        background:#aaa;
+        transform: translate(3.2em,-50%);
+        transition: 0.5s;
+      }
+</style>
+<body>
+    
+    <div style="width:50px;margin: 30px auto;">
+    
+        <input type="checkbox" name="switch" id="toggleSwitch" class="toggleSwitch hidden">
+        <label class="bar-switch" for="toggleSwitch"><span class="onoff-switch"></span></label>
+
+    </div>
+    
+    
+</body>
+</html>

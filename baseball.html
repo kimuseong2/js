@@ -34,6 +34,7 @@
             <input type="text" oninput="this.value = this.value.replaceAll(/\D/g, '');" OnKeyUp="next(2)" maxlength="1" class="baseball">
     
             <button class="check" onClick="check()">Check</button>
+            <button class="check" onClick="reset()">Reset</button>
         </div>
 
         <p>* 정답은 겹치지 않는 숫자들로 이루어져 있습니다.</p>
@@ -83,6 +84,12 @@
                         input[2].focus();
                     }
             }
+        }
+
+        function reset(){
+            input[0].value="";
+            input[1].value="";
+            input[2].value="";
         }
 
         function check(){ 

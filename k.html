@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body>
+
+    <button onClick="solution(437674,3)">Test</button>
+
+    <script>
+
+        function solution(n, k) {
+
+            let answer;
+
+            const number = n.toString(k).split('0');
+            const numberArr = number.filter( arr => arr !== "" );
+            let count = numberArr.length;
+
+            console.log("count: " + count);
+            console.log("numberArr: " + numberArr);
+            console.log("numberArr.length:"+numberArr.length);
+
+            //소수가 아닌 조건
+            //01. 1 제외
+            //02. 나누기 했을 때 나머지가 0 이 나오지 않을 경우 
+
+            for(let i=0; i<numberArr.length ; i++){
+                if(numberArr[i] == 1){
+                    console.log(numberArr[i]+": 1이라서 소수 ㄴㄴ");
+                    count--;
+                }else{
+                    for(let j=2; j< Math.sqrt(numberArr[i]); j++){
+                        console.log("Math.sqrt(numberArr[i]: "+Math.sqrt(numberArr[i]));
+                        console.log("numberArr[i] % j:"+numberArr[i] % j+", arr[i]:"+numberArr[i]+" j: "+ j)
+                        if(numberArr[i] % j === 0){
+                            console.log(numberArr[i]+": 소수 ㄴㄴ");
+                            count--;
+                        }
+                    }
+                }
+                console.log("count: " + count);
+                answer = count;
+            }
+            console.log(answer)
+            return answer;
+        }
+
+    </script>
+    
+</body>
+</html>
